@@ -58,6 +58,12 @@ func resourceNKSKeyset() *schema.Resource {
 					},
 				},
 			},
+			"workspaces": {
+				Type:     schema.TypeList,
+				Elem:     &schema.Schema{Type: schema.TypeInt},
+				Optional: true,
+				ForceNew: true,
+			},
 		},
 	}
 }
@@ -74,9 +80,6 @@ func resourceNKSKeysetCreate(d *schema.ResourceData, meta interface{}) error {
 		Workspaces: []int{},
 	}
 
-	rawKeys := d.Get("keys").([]interface{})
-	req.Keys = make([]stackpointio.Key, len(rawKeys))
-
 	if temp, ok := d.GetOk("entity"); ok {
 		if category == "user_ssh" {
 			return fmt.Errorf("when 'category' is set to '%s', 'entity' cannot be set", category)
@@ -84,6 +87,8 @@ func resourceNKSKeysetCreate(d *schema.ResourceData, meta interface{}) error {
 		req.Entity = temp.(string)
 	}
 
+	rawKeys := d.Get("keys").([]interface{})
+	req.Keys = make([]stackpointio.Key, len(rawKeys))
 	for i, v := range rawKeys {
 		value := v.(map[string]interface{})
 		req.Keys[i] = stackpointio.Key{
@@ -91,7 +96,13 @@ func resourceNKSKeysetCreate(d *schema.ResourceData, meta interface{}) error {
 			Value: value["key"].(string),
 		}
 	}
-	log.Printf("[DEBUG] req.Keys", req.Keys)
+
+	rawWorkspaces := d.Get("workspaces").([]interface{})
+	req.Workspaces = make([]int, len(rawWorkspaces))
+	for i, v := range rawWorkspaces {
+		req.Workspaces[i] = v.(int)
+	}
+	log.Printf("[DEBUG] ********", rawWorkspaces)
 
 	keyset, err := config.Client.CreateKeyset(orgID, req)
 	if err != nil {
@@ -119,6 +130,12 @@ func resourceNKSKeysetRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("name", keyset.Name)
 	d.Set("category", keyset.Category)
 	d.Set("entity", keyset.Entity)
+
+	workspaces := make([]interface{}, len(keyset.Workspaces))
+	for i, w := range keyset.Workspaces {
+		workspaces[i] = w
+	}
+	d.Set("workspaces", workspaces)
 
 	return nil
 }
