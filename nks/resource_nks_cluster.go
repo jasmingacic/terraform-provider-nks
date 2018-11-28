@@ -161,6 +161,26 @@ func resourceNKSCluster() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
+			"nodes": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"instance_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"public_ip": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"private_ip": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+					},
+				},
+			},
 		},
 	}
 }
@@ -317,6 +337,27 @@ func resourceNKSClusterRead(d *schema.ResourceData, meta interface{}) error {
 		}
 		return err
 	}
+	nodes, err := config.Client.GetNodes(orgID, clusterID)
+	if err != nil {
+		return err
+	}
+
+	rawNodes := make([]map[string]interface{}, len(nodes))
+
+	for i, n := range nodes {
+		rawNode := map[string]interface{}{
+			"instance_id": n.InstanceID,
+			"public_ip":   n.PublicIP,
+			"private_ip":  n.PrivateIP,
+		}
+
+		rawNodes[i] = rawNode
+	}
+
+	if err := d.Set("nodes", rawNodes); err != nil {
+		return err
+	}
+
 	d.Set("state", cluster.State)
 	d.Set("instanceID", cluster.InstanceID)
 	d.Set("cluster_name", cluster.Name)
