@@ -3,12 +3,6 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "biAVUZTQMEvxz4rJIIgXhtNDmAY=",
-			"path": "github.com/StackPointCloud/stackpoint-sdk-go/stackpointio",
-			"revision": "0e263c545e5057f5b9fc1f055a8bc925b351e1e1",
-			"revisionTime": "2018-12-03T11:53:22Z"
-		},
-		{
 			"checksumSHA1": "jQh1fnoKPKMURvKkpdRjN695nAQ=",
 			"origin": "github.com/hashicorp/terraform/vendor/github.com/agext/levenshtein",
 			"path": "github.com/agext/levenshtein",

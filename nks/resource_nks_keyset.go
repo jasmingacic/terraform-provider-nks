@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/StackPointCloud/stackpoint-sdk-go/stackpointio"
+	"github.com/StackPointCloud/nks-sdk-go/nks"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -73,7 +73,7 @@ func resourceNKSKeysetCreate(d *schema.ResourceData, meta interface{}) error {
 	orgID := d.Get("org_id").(int)
 	name := d.Get("name").(string)
 	category := d.Get("category").(string)
-	req := stackpointio.Keyset{
+	req := nks.Keyset{
 		Org:        orgID,
 		Name:       name,
 		Category:   category,
@@ -88,10 +88,10 @@ func resourceNKSKeysetCreate(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	rawKeys := d.Get("keys").([]interface{})
-	req.Keys = make([]stackpointio.Key, len(rawKeys))
+	req.Keys = make([]nks.Key, len(rawKeys))
 	for i, v := range rawKeys {
 		value := v.(map[string]interface{})
-		req.Keys[i] = stackpointio.Key{
+		req.Keys[i] = nks.Key{
 			Type:  value["key_type"].(string),
 			Value: value["key"].(string),
 		}

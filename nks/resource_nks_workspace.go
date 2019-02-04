@@ -3,7 +3,7 @@ package nks
 import (
 	"strconv"
 
-	"github.com/StackPointCloud/stackpoint-sdk-go/stackpointio"
+	"github.com/StackPointCloud/nks-sdk-go/nks"
 
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -93,16 +93,16 @@ func resourceNKSWorkspace() *schema.Resource {
 
 func resourceNKSWorkspaceCreate(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
-	workspace := &stackpointio.Workspace{
+	newWorkspace := nks.Workspace{
 		Org:  d.Get("org_id").(int),
 		Name: d.Get("name").(string),
 	}
 
 	if temp, ok := d.GetOk("default"); ok {
-		workspace.IsDefault = temp.(bool)
+		newWorkspace.IsDefault = temp.(bool)
 	}
 
-	workspace, err := config.Client.CreateWorkspace(workspace.Org, workspace)
+	workspace, err := config.Client.CreateWorkspace(newWorkspace.Org, newWorkspace)
 	if err != nil {
 		return err
 	}
@@ -124,7 +124,7 @@ func resourceNKSWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 
-	var workspace stackpointio.Workspace
+	var workspace nks.Workspace
 	for _, w := range workspaces {
 		if w.ID == id {
 			workspace = w

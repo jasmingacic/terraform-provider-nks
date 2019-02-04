@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/StackPointCloud/stackpoint-sdk-go/stackpointio"
+	"github.com/StackPointCloud/nks-sdk-go/nks"
 
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -69,18 +69,18 @@ func resourceNKSIstioMeshCreate(d *schema.ResourceData, meta interface{}) error 
 	orgID := d.Get("org_id").(int)
 	workspace := d.Get("workspace").(int)
 
-	im := stackpointio.IstioMeshRequest{
+	im := nks.IstioMeshRequest{
 		Name:      d.Get("name").(string),
 		MeshType:  d.Get("mesh_type").(string),
 		Workspace: workspace,
-		Members:   []stackpointio.MemberRequest{},
+		Members:   []nks.MemberRequest{},
 	}
 
 	membersRaw := d.Get("members").([]interface{})
-	im.Members = make([]stackpointio.MemberRequest, len(membersRaw))
+	im.Members = make([]nks.MemberRequest, len(membersRaw))
 	for i, v := range membersRaw {
 		value := v.(map[string]interface{})
-		im.Members[i] = stackpointio.MemberRequest{
+		im.Members[i] = nks.MemberRequest{
 			Cluster: value["cluster"].(int),
 			Role:    value["role"].(string),
 		}
@@ -106,7 +106,7 @@ func resourceNKSIstioMeshRead(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 
-	var mesh stackpointio.IstioMesh
+	var mesh nks.IstioMesh
 
 	meshes, err := config.Client.GetIstioMeshes(orgID, workspace)
 	for _, m := range meshes {
