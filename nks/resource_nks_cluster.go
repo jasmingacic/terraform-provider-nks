@@ -40,7 +40,7 @@ func resourceNKSCluster() *schema.Resource {
 			},
 			"startup_master_size": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"startup_worker_count": {
 				Type:     schema.TypeInt,
@@ -190,14 +190,13 @@ func resourceNKSClusterCreate(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
 	orgID := d.Get("org_id").(int)
 	sshKeyID := d.Get("ssh_keyset").(int)
+	providerCode := d.Get("provider_code").(string)
 
 	// Set up cluster structure based on input from user
 	newCluster := nks.Cluster{
 		Name:              d.Get("cluster_name").(string),
 		Provider:          d.Get("provider_code").(string),
 		ProviderKey:       d.Get("provider_keyset").(int),
-		MasterCount:       1,
-		MasterSize:        d.Get("startup_master_size").(string),
 		WorkerCount:       d.Get("startup_worker_count").(int),
 		WorkerSize:        d.Get("startup_worker_size").(string),
 		KubernetesVersion: d.Get("k8s_version").(string),
@@ -210,6 +209,12 @@ func resourceNKSClusterCreate(d *schema.ResourceData, meta interface{}) error {
 		Solutions:         []nks.Solution{}, // helm_tiller will get automatically installed
 		NetworkComponents: []nks.NetworkComponent{},
 	}
+
+	if providerCode == "aws" || providerCode == "azure" || providerCode == "gce" {
+		newCluster.MasterCount = 1
+		newCluster.MasterSize = d.Get("startup_master_size").(string)
+	}
+
 	// Grab provider-specific fields
 	if d.Get("provider_code").(string) == "aws" {
 		if _, ok := d.GetOk("region"); !ok {
@@ -291,6 +296,12 @@ func resourceNKSClusterCreate(d *schema.ResourceData, meta interface{}) error {
 		newCluster.Region = d.Get("region").(string)
 		newCluster.ProjectID = d.Get("project_id").(string)
 	}
+
+	if _, ok := d.GetOk("region"); !ok {
+		return fmt.Errorf("NKS needs region for clusters.")
+	}
+	newCluster.Region = d.Get("region").(string)
+
 	// Do cluster creation call
 	cluster, err := config.Client.CreateCluster(orgID, newCluster)
 
