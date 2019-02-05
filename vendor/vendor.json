@@ -3,6 +3,13 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "aSL9dq3Hiu4huIlg42ICJ9oKxug=",
+			"origin": "github.com/StackPointCloud/terraform-provider-nks/vendor/github.com/StackPointCloud/nks-sdk-go/nks",
+			"path": "github.com/StackPointCloud/nks-sdk-go/nks",
+			"revision": "1a9cbea4e5c47d1217bbeaf701ffd23b16ae3244",
+			"revisionTime": "2019-01-30T14:35:44Z"
+		},
+		{
 			"checksumSHA1": "jQh1fnoKPKMURvKkpdRjN695nAQ=",
 			"origin": "github.com/hashicorp/terraform/vendor/github.com/agext/levenshtein",
 			"path": "github.com/agext/levenshtein",
