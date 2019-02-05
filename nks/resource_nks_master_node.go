@@ -93,13 +93,17 @@ func resourceNKSMasterNodeCreate(d *schema.ResourceData, meta interface{}) error
 	config := meta.(*Config)
 	clusterID := d.Get("cluster_id").(int)
 	orgID := d.Get("org_id").(int)
+	rootDiskSize := d.Get("root_disk_size").(int)
 
 	// Set up new master node
 	newNode := nks.NodeAdd{
-		Count:        1,
-		Role:         "master",
-		Size:         d.Get("node_size").(string),
-		RootDiskSize: d.Get("root_disk_size").(int),
+		Count: 1,
+		Role:  "master",
+		Size:  d.Get("node_size").(string),
+	}
+
+	if rootDiskSize > 0 {
+		newNode.RootDiskSize = rootDiskSize
 	}
 
 	if d.Get("provider_code").(string) == "aws" {
