@@ -1,54 +1,88 @@
-variable "azure_code" {
-  description = "Azure cluster type code"
-  default     = "azure"
+# Organization
+variable "organization_name" {
+  description = "NKS organization name"
+  default     = ""
 }
 
-variable "azure_k8s_version" {
-  description = "Azure kubernetes version"
-  default     = "v1.8.7"
+# Cluster
+variable "cluster_name" {
+  description = "NKS cluster name"
+  default     = ""
+} 
+
+# Keyset
+variable "ssh_keyset_name" {
+  description = "NKS ssh keyset name"
+  default     = ""
 }
 
-variable "azure_platform" {
-  description = "Azure platform type"
-  default     = "coreos"
+variable "provider_keyset_name" {
+  description = "Cloud provider keyset name"
+  default     = ""
 }
 
-variable "azure_region" {
-  description = "Azure region"
-  default     = "eastus"
+# Cloud provider configuration variables
+variable "provider_code" {
+  description = "Cloud provider type code"
+  default     = ""
 }
 
-variable "azure_resource_group" {
-  description = "Azure resource group"
-  default     = "__new__"
+variable "provider_k8s_version" {
+  description = "Cloud provider kubernetes version"
+  default     = ""
 }
 
-variable "azure_network_id" {
-  description = "Azure network ID"
-  default     = "__new__"
+variable "provider_etcd_type" {
+  description = "Cloud provider etcd type"
+  default     = ""
 }
 
-variable "azure_network_cidr" {
-  description = "Azure network CIDR"
-  default     = "10.0.0.0/16"
+variable "provider_channel" {
+  description = "Cloud provider channel"
+  default     = ""
 }
 
-variable "azure_subnet_id" {
-  description = "Azure subnet ID"
-  default     = "__new__"
+variable "provider_platform" {
+  description = "Cloud provider platform type"
+  default     = ""
 }
 
-variable "azure_subnet_cidr" {
-  description = "Azure subnet CIDR"
-  default     = "10.0.0.0/24"
+variable "provider_region" {
+  description = "Cloud provider region"
+  default     = ""
 }
 
-variable "azure_master_size" {
-  description = "Azure master node size"
-  default     = "standard_f1"
+variable "provider_resource_group" {
+  description = "Cloud provider resource group"
+  default     = ""
 }
 
-variable "azure_worker_size" {
-  description = "Azure worker node size"
-  default     = "standard_f1"
+variable "provider_network_id" {
+  description = "Cloud provider network ID"
+  default     = ""
+}
+
+variable "provider_network_cidr" {
+  description = "Cloud provider network CIDR"
+  default     = ""
+}
+
+variable "provider_subnet_id" {
+  description = "Cloud provider subnet ID"
+  default     = ""
+}
+
+variable "provider_subnet_cidr" {
+  description = "Cloud provider subnet CIDR"
+  default     = ""
+}
+
+variable "provider_master_size" {
+  description = "Cloud provider master node size"
+  default     = ""
+}
+
+variable "provider_worker_size" {
+  description = "Cloud provider worker node size"
+  default     = ""
 }

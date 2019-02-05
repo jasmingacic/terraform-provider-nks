@@ -4,55 +4,59 @@ provider "nks" {
      defaults to StackPointCloud production enviroment */
 }
 
-data "nks_organization" "org" {}
+# Organization
+data "nks_organization" "default" {
+  name = "${var.organization_name}"
+}
 
+# Keyset
 data "nks_keyset" "keyset_default" {
+  org_id = "${data.nks_organization.default.id}"
+  name = "${var.provider_keyset_name}"
   category = "provider"
-  entity   = "azure"
+  entity   = "${var.provider_code}"
+
 
   /* You can specify a custom orgID here,   
      or the system will find and use your default organization ID */
 }
 
-data "nks_keyset" "ssh_key" {
-  category = "user"
-  name     = "default"
+data "nks_keyset" "keyset_ssh" {
+  org_id = "${data.nks_organization.default.id}"
+  category = "user_ssh"
+  name     = "${var.ssh_keyset_name}"
 
   /* You can specify a custom orgID here,   
      or the system will find and use your default organization ID */
 }
 
+# Instance specs
 data "nks_instance_specs" "master-specs" {
-  provider_code = "${var.azure_code}"
-  node_size     = "${var.azure_master_size}"
+  provider_code = "${var.provider_code}"
+  node_size     = "${var.provider_master_size}"
 }
 
 data "nks_instance_specs" "worker-specs" {
-  provider_code = "${var.azure_code}"
-  node_size     = "${var.azure_worker_size}"
+  provider_code = "${var.provider_code}"
+  node_size     = "${var.provider_worker_size}"
 }
 
+# Cluster
 resource "nks_cluster" "terraform-cluster" {
-  org_id                            = "${data.nks_organization.org.id}"
-  cluster_name                      = "Test Azure Cluster TerraForm"
-  provider_code                     = "${var.azure_code}"
+  org_id                            = "${data.nks_organization.default.id}"
+  cluster_name                      = "${var.cluster_name}"
+  provider_code                     = "${var.provider_code}"
   provider_keyset                   = "${data.nks_keyset.keyset_default.id}"
-  region                            = "${var.azure_region}"
-  k8s_version                       = "${var.azure_k8s_version}"
+  region                            = "${var.provider_region}"
+  k8s_version                       = "${var.provider_k8s_version}"
   startup_master_size               = "${data.nks_instance_specs.master-specs.node_size}"
   startup_worker_count              = 2
   startup_worker_size               = "${data.nks_instance_specs.worker-specs.node_size}"
-  provider_resource_group_requested = "${var.azure_resource_group}"
+  provider_resource_group_requested = "${var.provider_resource_group}"
   rbac_enabled                      = true
   dashboard_enabled                 = true
-  etcd_type                         = "classic"
-  platform                          = "${var.azure_platform}"
-  channel                           = "stable"
-  ssh_keyset                        = "${data.nks_keyset.ssh_key.id}"
-}
-
-resource "nks_solution" "efk" {
-  org_id     = "${data.nks_organization.org.id}"
-  cluster_id = "${nks_cluster.terraform-cluster.id}"
-  solution   = "efk"
+  etcd_type                         = "${var.provider_etcd_type}"
+  platform                          = "${var.provider_platform}"
+  channel                           = "${var.provider_channel}"
+  ssh_keyset                        = "${data.nks_keyset.keyset_ssh.id}"
 }
