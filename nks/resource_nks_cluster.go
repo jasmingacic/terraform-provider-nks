@@ -208,6 +208,7 @@ func resourceNKSClusterCreate(d *schema.ResourceData, meta interface{}) error {
 		Channel:           d.Get("channel").(string),
 		SSHKeySet:         sshKeyID,
 		Solutions:         []nks.Solution{}, // helm_tiller will get automatically installed
+		NetworkComponents: []nks.NetworkComponent{},
 	}
 	// Grab provider-specific fields
 	if d.Get("provider_code").(string) == "aws" {

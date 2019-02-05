@@ -80,6 +80,10 @@ func resourceNKSMasterNode() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
+			"root_disk_size": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 		},
 	}
 }
@@ -92,10 +96,12 @@ func resourceNKSMasterNodeCreate(d *schema.ResourceData, meta interface{}) error
 
 	// Set up new master node
 	newNode := nks.NodeAdd{
-		Count: 1,
-		Role:  "master",
-		Size:  d.Get("node_size").(string),
+		Count:        1,
+		Role:         "master",
+		Size:         d.Get("node_size").(string),
+		RootDiskSize: d.Get("root_disk_size").(int),
 	}
+
 	if d.Get("provider_code").(string) == "aws" {
 		if _, ok := d.GetOk("zone"); !ok {
 			return fmt.Errorf("NKS needs zone for AWS clusters.")
