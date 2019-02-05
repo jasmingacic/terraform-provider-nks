@@ -1,70 +1,113 @@
-# AWS configuration variables
-variable "aws_code" {
-  description = "AWS cluster type code"
-  default     = "aws"
+# Organization
+variable "organization_name" {
+  description = "NKS organization name"
+  default     = ""
 }
 
-variable "aws_k8s_version" {
-  description = "AWS kubernetes version"
-  default     = "v1.11.1"
+# Cluster
+variable "cluster_name" {
+  description = "NKS cluster name"
+  default     = ""
+} 
+
+# Keyset
+variable "ssh_keyset_name" {
+  description = "NKS ssh keyset name"
+  default     = ""
 }
 
-variable "aws_platform" {
-  description = "AWS platform type"
-  default     = "coreos"
+variable "provider_keyset_name" {
+  description = "Cloud provider keyset name"
+  default     = ""
 }
 
-variable "aws_region" {
-  description = "AWS region"
-  default     = "us-east-2"
+# Cloud provider configuration variables
+variable "provider_category" {
+  description = "NKS provider category"
+  default     = ""
 }
 
-variable "aws_zone" {
-  description = "AWS zone"
-  default     = "us-east-2a"
+variable "provider_entity" {
+  description = "NKS ssh keyset name"
+  default     = ""
 }
 
-variable "aws_network_id" {
-  description = "AWS network ID"
-  default     = "__new__"
+variable "provider_code" {
+  description = "Cloud provider type code"
+  default     = ""
 }
 
-variable "aws_network_cidr" {
-  description = "AWS network CIDR"
-  default     = "10.0.0.0/16"
+variable "provider_k8s_version" {
+  description = "Cloud provider kubernetes version"
+  default     = ""
 }
 
-variable "aws_subnet_id" {
-  description = "AWS subnet ID"
-  default     = "__new__"
+variable "provider_etcd_type" {
+  description = "Cloud provider etcd type"
+  default     = ""
 }
 
-variable "aws_subnet_cidr" {
-  description = "AWS subnet CIDR"
-  default     = "10.0.0.0/24"
+variable "provider_channel" {
+  description = "Cloud provider channel"
+  default     = ""
 }
 
-variable "aws_zone2" {
-  description = "AWS zone for second master"
-  default     = "us-east-2b"
+variable "provider_platform" {
+  description = "Cloud provider platform type"
+  default     = ""
 }
 
-variable "aws_subnet_id2" {
-  description = "AWS subnet ID for second master"
-  default     = "__new__"
+variable "provider_region" {
+  description = "Cloud provider region"
+  default     = ""
 }
 
-variable "aws_subnet_cidr2" {
-  description = "AWS subnet CIDR for second master"
-  default     = "10.0.1.0/24"
+variable "provider_zone" {
+  description = "Cloud provider zone"
+  default     = ""
 }
 
-variable "aws_master_size" {
-  description = "AWS master node size"
-  default     = "t2.medium"
+variable "provider_network_id" {
+  description = "Cloud provider network ID"
+  default     = ""
 }
 
-variable "aws_worker_size" {
-  description = "AWS worker node size"
-  default     = "t2.medium"
+variable "provider_network_cidr" {
+  description = "Cloud provider network CIDR"
+  default     = ""
+}
+
+variable "provider_subnet_id" {
+  description = "Cloud provider subnet ID"
+  default     = ""
+}
+
+variable "provider_subnet_cidr" {
+  description = "Cloud provider subnet CIDR"
+  default     = ""
+}
+
+variable "provider_zone2" {
+  description = "Cloud provider zone for second master"
+  default     = ""
+}
+
+variable "provider_subnet_id2" {
+  description = "Cloud provider subnet ID for second master"
+  default     = ""
+}
+
+variable "provider_subnet_cidr2" {
+  description = "Cloud provider subnet CIDR for second master"
+  default     = ""
+}
+
+variable "provider_master_size" {
+  description = "Cloud provider master node size"
+  default     = ""
+}
+
+variable "provider_worker_size" {
+  description = "Cloud provider worker node size"
+  default     = ""
 }
