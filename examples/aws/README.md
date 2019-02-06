@@ -18,7 +18,7 @@ From inside of this directory:
 
 ```bash
 export NKS_API_TOKEN=<this is a secret>
-export NKS_BASE_API_URL=https://api.stackpoint.io/
+export NKS_API_URL=https://api.stackpoint.io/
 terraform init
 terraform plan
 terraform apply

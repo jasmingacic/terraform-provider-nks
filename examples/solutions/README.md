@@ -14,7 +14,7 @@ From inside of this directory:
 
 ```bash
 export NKS_API_TOKEN=<this is a secret>
-export NKS_BASE_API_URL=<this is a secret>
+export NKS_API_URL=<this is a secret>
 terraform init
 terraform plan
 terraform apply
