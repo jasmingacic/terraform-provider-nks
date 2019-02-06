@@ -34,6 +34,18 @@ Using the provider
 ----------------------
 If you're building the provider, follow the instructions to [install it as a plugin.](https://www.terraform.io/docs/plugins/basics.html#installing-a-plugin) After placing it into your plugins directory,  run `terraform init` to initialize it.
 
+Examples
+-----------
+
+Examples covers basic scenarios for using NetApp Kubernetes Services. Each example have related README with more detail related for the topic. The following examples are availabe:
+- [Create AKS cluster](examples/aks)
+- [Create AWS cluster](examples/aws)
+- [Create Azure cluster](examples/azure)
+- [Create EKS cluster](examples/eks)
+- [Create GCE cluster](examples/gce)
+- [Create GKE cluster](examples/gke)
+- [Create a cluster and install some solutions from the gallery](examples/solutions)
+
 Developing the Provider
 ---------------------------
 
