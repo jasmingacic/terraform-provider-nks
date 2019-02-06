@@ -57,7 +57,7 @@ To compile the provider, run `make build`. This will build the provider and put 
 ```sh
 $ make build
 ...
-$ $GOPATH/bin/terraform-provider-stackpoint
+$ $GOPATH/bin/terraform-provider-nks
 ...
 ```
 
