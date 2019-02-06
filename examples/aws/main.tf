@@ -70,6 +70,7 @@ resource "nks_master_node" "master2" {
   zone                 = "${var.provider_zone2}"
   provider_subnet_cidr = "${var.provider_subnet_cidr2}"
   node_size            = "${data.nks_instance_specs.master-specs.node_size}"
+  root_disk_size       = 50
 }
 
 # Worker node
