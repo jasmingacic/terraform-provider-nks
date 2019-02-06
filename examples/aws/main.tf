@@ -1,7 +1,7 @@
 provider "nks" {
 
  /* Set environment variable NKS_API_TOKEN with your API token from StackPointCloud    
-     Set environment variable NKS_BASE_API_URL with API endpoint,   
+     Set environment variable NKS_API_URL with API endpoint,   
      defaults to StackPointCloud production enviroment */
 }
 
