@@ -38,6 +38,7 @@ Examples
 -----------
 
 Examples covers basic scenarios for using NetApp Kubernetes Services. Each example have related README with more detail related for the topic. The following examples are availabe:
+- [Adding keyset](examples/keysets)
 - [Create AKS cluster](examples/aks)
 - [Create AWS cluster](examples/aws)
 - [Create Azure cluster](examples/azure)
