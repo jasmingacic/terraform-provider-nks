@@ -50,6 +50,14 @@ func resourceNKSCluster() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"startup_worker_min_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"startup_worker_max_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"rbac_enabled": {
 				Type:     schema.TypeBool,
 				Required: true,
@@ -181,6 +189,38 @@ func resourceNKSCluster() *schema.Resource {
 					},
 				},
 			},
+			"network_component": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"cidr": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"component_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"vpc_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"zone": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"provider_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+					},
+				},
+			},
 		},
 	}
 }
@@ -213,6 +253,30 @@ func resourceNKSClusterCreate(d *schema.ResourceData, meta interface{}) error {
 	if providerCode == "aws" || providerCode == "azure" || providerCode == "gce" {
 		newCluster.MasterCount = 1
 		newCluster.MasterSize = d.Get("startup_master_size").(string)
+	}
+
+	if providerCode == "eks" {
+		if _, ok := d.GetOk("startup_worker_min_count"); !ok {
+			return fmt.Errorf("NKS needs min node number")
+		}
+		newCluster.MinNodeCount = d.Get("startup_worker_min_count").(int)
+
+		if _, ok := d.GetOk("startup_worker_max_count"); !ok {
+			return fmt.Errorf("NKS needs max node number")
+		}
+		newCluster.MaxNodeCount = d.Get("startup_worker_max_count").(int)
+
+		// Allow user to submit values for provider_network_id_requested, and put real value in computed provider_network_id
+		if _, ok := d.GetOk("provider_network_id_requested"); !ok {
+			newCluster.ProviderNetworkID = "__new__"
+		} else {
+			newCluster.ProviderNetworkID = d.Get("provider_network_id_requested").(string)
+		}
+		if _, ok := d.GetOk("provider_network_cidr"); !ok {
+			newCluster.ProviderNetworkCdr = "10.0.0.0/16"
+		} else {
+			newCluster.ProviderNetworkCdr = d.Get("provider_network_cidr").(string)
+		}
 	}
 
 	// Grab provider-specific fields
@@ -301,6 +365,29 @@ func resourceNKSClusterCreate(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("NKS needs region for clusters.")
 	}
 	newCluster.Region = d.Get("region").(string)
+
+	//Network Components
+	if vRaw, ok := d.GetOk("network_component"); ok {
+		componentRaw := vRaw.(*schema.Set).List()
+		for _, raw := range componentRaw {
+			rawMap := raw.(map[string]interface{})
+			if rawMap["id"] == nil || rawMap["cidr"] == nil || rawMap["component_type"] == nil || rawMap["provider_id"] == nil || rawMap["vpc_id"] == nil || rawMap["zone"] == nil {
+				return fmt.Errorf("Required fields for network component are id, cidr, component_type, provider_id, vpc_id, zone")
+			}
+			netComponent := nks.NetworkComponent{
+				ID:            rawMap["id"].(string),
+				Cidr:          rawMap["cidr"].(string),
+				ComponentType: rawMap["component_type"].(string),
+				ProviderID:    rawMap["provider_id"].(string),
+				VpcID:         rawMap["vpc_id"].(string),
+				Zone:          rawMap["zone"].(string),
+			}
+			if rawMap["name"] != nil {
+				netComponent.Name = rawMap["name"].(string)
+			}
+			newCluster.NetworkComponents = append(newCluster.NetworkComponents, netComponent)
+		}
+	}
 
 	// Do cluster creation call
 	cluster, err := config.Client.CreateCluster(orgID, newCluster)
