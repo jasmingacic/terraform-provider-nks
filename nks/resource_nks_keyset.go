@@ -2,7 +2,6 @@ package nks
 
 import (
 	"fmt"
-	"log"
 	"strconv"
 
 	"github.com/StackPointCloud/nks-sdk-go/nks"
@@ -102,7 +101,6 @@ func resourceNKSKeysetCreate(d *schema.ResourceData, meta interface{}) error {
 	for i, v := range rawWorkspaces {
 		req.Workspaces[i] = v.(int)
 	}
-	log.Printf("[DEBUG] ********", rawWorkspaces)
 
 	keyset, err := config.Client.CreateKeyset(orgID, req)
 	if err != nil {
