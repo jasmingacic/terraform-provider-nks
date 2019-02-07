@@ -1,6 +1,6 @@
 # NetApp Kubernetes Service Examples
 
-This directory contains a set of examples of using various NetApp Kubernetes Services with
+This directory contains a set of examples of using NetApp Kubernetes Service with
 Terraform. The examples each have their own README containing more details
 on what the example does.
 

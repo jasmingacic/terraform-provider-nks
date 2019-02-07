@@ -1,14 +1,15 @@
-# EKS Cluster example
+# EKS Cluster Example
 
-This example will show you how to create a cluster on EKS with Netapp Kubernetes Services.
+This example will show you how to create a cluster on EKS with NetApp Kubernetes Service.
 
 This example does the following:
-- Finds organization
-- Finds EKS keyset
-- Finds SSH keyset
+
+- Finds an organization
+- Finds an EKS keyset
+- Finds an SSH keyset
 - Creates a cluster
 
-[Keyset examples](/examples/keysets) shows how to add a key to NKS.
+[Keyset examples](/examples/keysets) shows how to add a keyset to NKS.
 
 ## Run the example
 
@@ -26,3 +27,4 @@ terraform apply
 
 ```bash
 terraform destroy
+```

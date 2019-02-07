@@ -1,16 +1,17 @@
-# AWS Cluster example
+# AWS Cluster Example
 
-This example will show you how to create a cluster on AWS with Netapp Kubernetes Services.
+This example will show you how to create a cluster on AWS with NetApp Kubernetes Service.
 
 This example does the following:
-- Finds organization
-- Finds AWS keyset
-- Finds SSH keyset
-- Creates a cluster
-- Add an additional master node
-- Add an additional node pool
 
-[Keyset examples](/examples/keysets) shows how to add a key to NKS.
+- Finds an organization
+- Finds an AWS keyset
+- Finds an SSH keyset
+- Creates a cluster
+- Adds an additional master node
+- Adds an additional node pool
+
+[Keyset examples](/examples/keysets) shows how to add a keyset to NKS.
 
 ## Run the example
 
@@ -28,3 +29,4 @@ terraform apply
 
 ```bash
 terraform destroy
+```
