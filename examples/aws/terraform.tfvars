@@ -10,7 +10,6 @@ ssh_keyset_name = "My SSH Keypair"
 
 # Provider
 provider_code = "aws"
-
 provider_k8s_version = "v1.13.2"
 provider_platform = "coreos"
 provider_channel = "stable"
