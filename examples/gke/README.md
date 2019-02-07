@@ -9,7 +9,7 @@ This example does the following:
 - Finds an SSH keyset
 - Creates a cluster
 
-[Keyset examples](/examples/keysets) shows how to add a keyset to NKS.
+[Keyset examples](/examples/keysets#adding-a-cloud-provider-keyset-for-gke) shows how to add a keyset to NKS.
 
 ## Run the example
 

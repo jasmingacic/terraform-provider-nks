@@ -11,7 +11,7 @@ This example does the following:
 - Adds an additional master node
 - Adds an additional node pool
 
-[Keyset examples](/examples/keysets) shows how to add a keyset to NKS.
+[Keyset examples](/examples/keysets#adding-a-cloud-provider-keyset-for-aws) shows how to add a keyset to NKS.
 
 ## Run the example
 
