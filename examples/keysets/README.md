@@ -124,7 +124,7 @@ resource "nks_keyset" "default_eks" {
 }
 ```
 
-For instructions for obtaining credentials for EKS visit [this link](https://stackpointcloud.com/community/tutorial/how-to-create-auth-credentials-on-aws)
+For instructions for obtaining credentials for EKS visit [this link](https://stackpointcloud.com/community/tutorial/how-to-create-auth-credentials-on-amazon-web-services-aws)
 
 ## Adding a cloud provider keyset for GCE
 
