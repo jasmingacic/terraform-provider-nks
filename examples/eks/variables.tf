@@ -8,7 +8,7 @@ variable "organization_name" {
 variable "cluster_name" {
   description = "NKS cluster name"
   default     = ""
-} 
+}
 
 # Keyset
 variable "ssh_keyset_name" {

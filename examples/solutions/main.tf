@@ -11,18 +11,17 @@ data "nks_organization" "default" {
 
 # Keyset
 data "nks_keyset" "keyset_default" {
-  org_id = "${data.nks_organization.default.id}"
-  name = "${var.provider_keyset_name}"
+  org_id   = "${data.nks_organization.default.id}"
+  name     = "${var.provider_keyset_name}"
   category = "provider"
   entity   = "${var.provider_code}"
-
 
   /* You can specify a custom orgID here,   
      or the system will find and use your default organization ID */
 }
 
 data "nks_keyset" "keyset_ssh" {
-  org_id = "${data.nks_organization.default.id}"
+  org_id   = "${data.nks_organization.default.id}"
   category = "user_ssh"
   name     = "${var.ssh_keyset_name}"
 
