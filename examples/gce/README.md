@@ -1,14 +1,15 @@
-# GCE Cluster example
+# GCE Cluster Example
 
-This example will show you how to create a cluster on GCE with Netapp Kubernetes Services.
+This example will show you how to create a cluster on GCE with NetApp Kubernetes Service.
 
 This example does the following:
-- Finds organization
-- Finds GCE keyset
-- Finds SSH keyset
+
+- Finds an organization
+- Finds an GCE keyset
+- Finds an SSH keyset
 - Creates a cluster
 
-[Keyset examples](/examples/keysets) shows how to add a key to NKS.
+[Keyset examples](/examples/keysets) shows how to add a keyset to NKS.
 
 ## Run the example
 
@@ -26,3 +27,4 @@ terraform apply
 
 ```bash
 terraform destroy
+```
