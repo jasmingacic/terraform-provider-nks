@@ -35,7 +35,7 @@ resource "nks_keyset" "default_aks" {
 }
 ```
 
-For instructions for obtaining credentials for Azure visit [this link](https://stackpointcloud.com/community/tutorial/how-to-create-auth-credentials-on-azure)
+For instructions for obtaining credentials for AKS visit [this link](https://stackpointcloud.com/community/tutorial/how-to-create-auth-credentials-on-azure)
 
 ## Adding a cloud provider keyset for AWS
 
