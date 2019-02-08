@@ -1,8 +1,7 @@
 provider "nks" {
-
- /* Set environment variable NKS_API_TOKEN with your API token from StackPointCloud    
-     Set environment variable NKS_API_URL with API endpoint,   
-     defaults to StackPointCloud production enviroment */
+    # Set environment variable NKS_API_TOKEN with your API token from NKS
+    # Set environment variable NKS_API_URL with API endpoint,
+    # defaults to the NKS production enviroment
 }
 
 # Organization
@@ -12,20 +11,20 @@ data "nks_organization" "default" {
 
 # Keyset
 data "nks_keyset" "keyset_provider" {
-  /* You can specify a custom orgID here,   
-     or the system will find and use your default organization ID */
-     org_id="${data.nks_organization.default.id}"
-     name="${var.provider_keyset_name}"
+     # You can specify a custom orgID here,
+     # or the system will find and use your default organization ID
+     org_id   = "${data.nks_organization.default.id}"
+     name     = "${var.provider_keyset_name}"
      category = "provider"
-     entity = "${var.provider_code}"
+     entity   = "${var.provider_code}"
 }
 
 data "nks_keyset" "keyset_ssh" {
-  /* You can specify a custom orgID here,   
-     or the system will find and use your default organization ID */
-     org_id="${data.nks_organization.default.id}"
+     # You can specify a custom orgID here,
+     # or the system will find and use your default organization ID
+     org_id   = "${data.nks_organization.default.id}"
      category = "user_ssh"
-     name = "${var.ssh_keyset_name}"
+     name     = "${var.ssh_keyset_name}"
 }
 
 # Instance specs

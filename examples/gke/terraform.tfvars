@@ -6,7 +6,7 @@ cluster_name = "Terraform GKE Cluster"
 
 # Keyset
 provider_keyset_name = "My GKE Credentials"
-ssh_keyset_name = "My SSH Keypair"
+ssh_keyset_name = "My SSH Keyset"
 
 # Provider
 provider_code = "gke"

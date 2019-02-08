@@ -45,6 +45,7 @@ resource "nks_cluster" "terraform-cluster" {
   provider_code                     = "${var.provider_code}"
   provider_keyset                   = "${data.nks_keyset.keyset_default.id}"
   region                            = "${var.provider_region}"
+  zone                              = "${var.provider_zone}"
   k8s_version                       = "${var.provider_k8s_version}"
   startup_master_size               = "${data.nks_instance_specs.master-specs.node_size}"
   startup_worker_count              = 2
@@ -68,25 +69,6 @@ resource "nks_solution" "haproxy" {
   org_id     = "${data.nks_organization.default.id}"
   cluster_id = "${nks_cluster.terraform-cluster.id}"
   solution   = "haproxy"
-}
-
-resource "nks_solution" "istio" {
-  org_id     = "${data.nks_organization.default.id}"
-  cluster_id = "${nks_cluster.terraform-cluster.id}"
-  solution   = "istio"
-}
-
-resource "nks_solution" "jenkins" {
-  org_id     = "${data.nks_organization.default.id}"
-  cluster_id = "${nks_cluster.terraform-cluster.id}"
-  solution   = "jenkins"
-  config     = "${file("solutions/jenkins.json")}"
-}
-
-resource "nks_solution" "linkerd" {
-  org_id     = "${data.nks_organization.default.id}"
-  cluster_id = "${nks_cluster.terraform-cluster.id}"
-  solution   = "linkerd"
 }
 
 resource "nks_solution" "prometheus" {
