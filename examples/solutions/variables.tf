@@ -77,18 +77,8 @@ variable "provider_subnet_cidr" {
   default     = ""
 }
 
-variable "provider_zone2" {
+variable "provider_zone" {
   description = "Cloud provider zone for second master"
-  default     = ""
-}
-
-variable "provider_subnet_id2" {
-  description = "Cloud provider subnet ID for second master"
-  default     = ""
-}
-
-variable "provider_subnet_cidr2" {
-  description = "Cloud provider subnet CIDR for second master"
   default     = ""
 }
 

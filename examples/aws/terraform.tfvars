@@ -6,7 +6,7 @@ cluster_name = "Terraform AWS Cluster"
 
 # Keyset
 provider_keyset_name = "My AWS Credentials"
-ssh_keyset_name = "My SSH Keypair"
+ssh_keyset_name = "My SSH Keyset"
 
 # Provider
 provider_code = "aws"
