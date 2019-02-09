@@ -1,10 +1,7 @@
 package nks
 
-import (
-	"fmt"
-	"strings"
-	"time"
-)
+import "fmt"
+import "time"
 
 // IstioMeshRequest object used to create an istio mesh
 type IstioMeshRequest struct {
@@ -99,30 +96,4 @@ func (c *APIClient) DeleteIstioMesh(orgID int, workspaceID int, meshID int) (err
 	}
 	err = c.runRequest(req)
 	return
-}
-
-// WaitIstioMeshDeleted waits until isto mesh disappears
-func (c *APIClient) WaitIstioMeshDeleted(orgID, workspaceID, meshID, timeout int) error {
-	for i := 1; i < timeout; i++ {
-		_, err := c.GetIstioMesh(orgID, workspaceID, meshID)
-		if err != nil {
-			if strings.Contains(err.Error(), "404") {
-				return nil
-			}
-		}
-		time.Sleep(time.Second)
-	}
-	return fmt.Errorf("Timeout (%d seconds) reached before isto mesh deleted\n", timeout)
-}
-
-// WaitIstioMeshCreated waits until isto mesh state is active
-func (c *APIClient) WaitIstioMeshCreated(orgID, workspaceID, meshID, timeout int) error {
-	for i := 1; i < timeout; i++ {
-		mesh, err := c.GetIstioMesh(orgID, workspaceID, meshID)
-		if err == nil && mesh.State == "active" {
-			return nil
-		}
-		time.Sleep(time.Second)
-	}
-	return fmt.Errorf("Timeout (%d seconds) reached before isto mesh created\n", timeout)
 }
