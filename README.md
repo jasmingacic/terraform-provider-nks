@@ -75,7 +75,7 @@ In order to run the full suite of acceptance tests, run `make testacc`.
 $ make testacc
 ```
 
-If you need to add a new package in the vendor directory under `github.com/StackPointCloud/nks-sdk-go`, create a separate PR handling _only_ the update of the vendor for your new requirement. Make sure to pin your dependency to a specific version, and that all versions of `github.com/StackPointCloud/nks-sdk-go/*` are pinned to the same version.
+If you need to add a new package in the vendor directory under `github.com/NetApp/nks-sdk-go`, create a separate PR handling _only_ the update of the vendor for your new requirement. Make sure to pin your dependency to a specific version, and that all versions of `github.com/NetApp/nks-sdk-go/*` are pinned to the same version.
 
 Terraform Resources
 -------------------
