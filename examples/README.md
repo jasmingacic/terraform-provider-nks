@@ -10,7 +10,7 @@ the example's own directory.
 For example:
 
 ```
-$ git clone https://github.com/StackPointCloud/terraform-provider-nks
+$ git clone https://github.com/NetApp/terraform-provider-nks
 $ cd terraform-provider-nks/examples/aws
 $ terraform apply
 ...

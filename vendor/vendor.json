@@ -3,11 +3,10 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "aSL9dq3Hiu4huIlg42ICJ9oKxug=",
-			"origin": "github.com/StackPointCloud/terraform-provider-nks/vendor/github.com/StackPointCloud/nks-sdk-go/nks",
-			"path": "github.com/StackPointCloud/nks-sdk-go/nks",
-			"revision": "1a9cbea4e5c47d1217bbeaf701ffd23b16ae3244",
-			"revisionTime": "2019-01-30T14:35:44Z"
+			"checksumSHA1": "2nD9Vzo152PZRlEL7QAg6xZ0Om8=",
+			"path": "github.com/NetApp/nks-sdk-go/nks",
+			"revision": "880de27e9375eaf65862baae08545ab98bc853cb",
+			"revisionTime": "2019-02-08T23:17:17Z"
 		},
 		{
 			"checksumSHA1": "jQh1fnoKPKMURvKkpdRjN695nAQ=",
@@ -1119,5 +1118,5 @@
 			"revisionTime": "2018-05-03T10:44:00Z"
 		}
 	],
-	"rootPath": "github.com/StackPointCloud/terraform-provider-nks"
+	"rootPath": "github.com/NetApp/terraform-provider-nks"
 }
