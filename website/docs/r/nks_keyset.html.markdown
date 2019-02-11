@@ -18,6 +18,7 @@ resource "nks_solution" "aws_keyset" {
   name                 = "AWS Keyset"
   category             = "provider"
   entity               = "aws"
+  workspaces           = ""
   keys = [
       {
         key_type         = "pub"
@@ -27,8 +28,7 @@ resource "nks_solution" "aws_keyset" {
         key_type         = "pvt"
         key              = "${var.aws_secret_key}"
       }
-  ]
-  workspaces           = ""
+  ]  
 }
 ```
 
@@ -42,5 +42,5 @@ resource "nks_solution" "aws_keyset" {
 * `workspaces` - (Optional)[list] Workspaces, A list of workspace ID
 
 `key` supports the following:
-* `key_type` - (Optional)[string] Keytype, represents type of key. Examples of key types commonly used are pub, prv, tenant, subscription, license, pull_secret, token, username, password, scope, other etc.
-* `key` - (Optional)[string] Key, reporesents a value for specific key type
+* `key_type` - (Optional)[string] Keytype, represents type of key. Examples of key type commonly used are pub, prv, tenant, subscription, license, pull_secret, token, username, password, scope, other etc.
+* `key` - (Optional)[string] Key, represents a value for specific key type
