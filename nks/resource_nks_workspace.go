@@ -94,8 +94,9 @@ func resourceNKSWorkspace() *schema.Resource {
 func resourceNKSWorkspaceCreate(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
 	newWorkspace := nks.Workspace{
-		Org:  d.Get("org_id").(int),
-		Name: d.Get("name").(string),
+		Org:            d.Get("org_id").(int),
+		Name:           d.Get("name").(string),
+		TeamWorkspaces: []nks.TeamWorkspace{},
 	}
 
 	if temp, ok := d.GetOk("default"); ok {
