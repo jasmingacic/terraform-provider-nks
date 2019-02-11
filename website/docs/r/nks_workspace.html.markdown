@@ -26,4 +26,4 @@ resource "nks_solution" "my_workspace" {
 * `name` - (Required)[string] Workspace name, can be anything you choose
 * `org_id` - (Required)[int] Organization ID, usually populated by a reference to a keyset datasource value
 * `slug` - (Optional)[string] Slug, can be anything you choose
-* `default` - (Required)[bool] Default, can be default workspace
+* `default` - (Optional)[bool] Default, can be default workspace
