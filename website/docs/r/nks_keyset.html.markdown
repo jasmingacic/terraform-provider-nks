@@ -42,5 +42,5 @@ resource "nks_solution" "aws_keyset" {
 * `workspaces` - (Optional)[list] Workspaces, A list of workspace ID
 
 `key` supports the following:
-* `key_type` - (Optional)[string] Keytype, represents type of key. Examples of key type commonly used are pub, prv, tenant, subscription, license, pull_secret, token, username, password, scope, other etc.
+* `key_type` - (Optional)[string] Keytype, represents type of key. Examples of key type commonly used are `pub`, `prv`, `tenant`, `subscription`, `license`, `pull_secret`, `token`, `username`, `password`, `scope`, `other` etc.
 * `key` - (Optional)[string] Key, represents a value for specific key type
