@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 )
 
-func TestAccDataSourceIstioMesh_Basic(t *testing.T) {
+func TestAccResourceIstioMesh_Basic(t *testing.T) {
 	_, exists := os.LookupEnv("TF_ACC_ISTIO_MESH_LOCK")
 	if !exists {
 		t.Skip("`TF_ACC_ISTIO_MESH_LOCK` isn't specified - skipping since test will increase test time significantly")
@@ -20,15 +20,15 @@ func TestAccDataSourceIstioMesh_Basic(t *testing.T) {
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: testAccDataSourceNKSIstioMesh_Basic,
+				Config: testResourceNKSIstioMesh_Basic,
 			},
 		},
 	})
 }
 
-const testAccDataSourceNKSIstioMesh_Basic = `
+const testResourceNKSIstioMesh_Basic = `
 data "nks_organization" "org" {
-    name = "Wandering Band"
+
 }
 
 data "nks_keyset" "keyset_default" {
