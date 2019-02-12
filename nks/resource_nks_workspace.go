@@ -34,59 +34,6 @@ func resourceNKSWorkspace() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
-			"clusters": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"key_type": {
-							Type:     schema.TypeString,
-							Optional: true,
-						},
-						"key": {
-							Type:     schema.TypeString,
-							Optional: true,
-						},
-					},
-				},
-			},
-			"user_solutions": {
-				Type:     schema.TypeList,
-				Elem:     &schema.Schema{Type: schema.TypeInt},
-				Computed: true,
-			},
-			"team_workspaces": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"key_type": {
-							Type:     schema.TypeString,
-							Optional: true,
-						},
-						"key": {
-							Type:     schema.TypeString,
-							Optional: true,
-						},
-					},
-				},
-			},
-			"federations": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"key_type": {
-							Type:     schema.TypeString,
-							Optional: true,
-						},
-						"key": {
-							Type:     schema.TypeString,
-							Optional: true,
-						},
-					},
-				},
-			},
 		},
 	}
 }
@@ -94,8 +41,9 @@ func resourceNKSWorkspace() *schema.Resource {
 func resourceNKSWorkspaceCreate(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
 	newWorkspace := nks.Workspace{
-		Org:  d.Get("org_id").(int),
-		Name: d.Get("name").(string),
+		Org:            d.Get("org_id").(int),
+		Name:           d.Get("name").(string),
+		TeamWorkspaces: []nks.TeamWorkspace{},
 	}
 
 	if temp, ok := d.GetOk("default"); ok {
