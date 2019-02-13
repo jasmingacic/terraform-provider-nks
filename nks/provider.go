@@ -33,7 +33,10 @@ func Provider() terraform.ResourceProvider {
 			"nks_solution":    resourceNKSSolution(),
 			"nks_keyset":      resourceNKSKeyset(),
 			"nks_workspace":   resourceNKSWorkspace(),
+<<<<<<< HEAD
 			"nks_istio_mesh":  resourceNKSIstioMesh(),
+=======
+>>>>>>> acce638114a11270ab437b72e20320fa29350c39
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"nks_instance_specs": dataSourceNKSInstanceSpecs(),
