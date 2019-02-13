@@ -110,11 +110,15 @@ resource "nks_solution" "istio-b" {
 	solution   = "istio"
 }
 
+data "nks_workspace" "my-workspace" {
+	org_id = "${data.nks_organization.org.id}"
+}
+
 resource "nks_istio_mesh" "istio-mesh-tf" {
 	name        = "tf-istio-mesh-1"
 	mesh_type   = "cross_cluster"
 	org_id      = "${data.nks_organization.org.id}"
-	workspace   = "105"
+	workspace   = "${data.nks_workspace.my-workspace.id}"
 	members     = [
 		{
 			cluster	          = "${nks_cluster.terraform-cluster-a.id}"

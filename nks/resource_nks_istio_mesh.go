@@ -2,7 +2,6 @@ package nks
 
 import (
 	"fmt"
-	"log"
 	"strconv"
 
 	"github.com/NetApp/nks-sdk-go/nks"
@@ -100,10 +99,8 @@ func resourceNKSIstioMeshCreate(d *schema.ResourceData, meta interface{}) error 
 
 	for i, solutionID := range solutionIds {
 		if err := config.Client.WaitSolutionInstalled(orgID, im.Members[i].Cluster, solutionID, timeout); err != nil {
-			log.Printf("[DEBUG] Solution %d create failed while waiting for 'installed' state: %s\n", (solutionID), err)
-			return err
+			return fmt.Errorf("Solution %d create failed while waiting for 'installed' state: %s", solutionID, err)
 		}
-		log.Printf("[DEBUG] Solution %d reached 'installed' state.\n", (solutionID))
 	}
 
 	istioMesh, err := config.Client.CreateIstioMesh(orgID, workspace, im)
@@ -112,8 +109,7 @@ func resourceNKSIstioMeshCreate(d *schema.ResourceData, meta interface{}) error 
 	}
 
 	if err := config.Client.WaitIstioMeshCreated(orgID, workspace, istioMesh.ID, timeout); err != nil {
-		log.Printf("[DEBUG] Istio mesh %s create failed while waiting: %s\n", d.Get("name").(string), err)
-		return err
+		return fmt.Errorf("Istio mesh %s create failed while waiting: %s", d.Get("name").(string), err)
 	}
 
 	d.SetId(strconv.Itoa(istioMesh.ID))
