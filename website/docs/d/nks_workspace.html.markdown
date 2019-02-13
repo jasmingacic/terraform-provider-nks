@@ -8,7 +8,7 @@ description: |-
 
 # nks\_workspace
 
-The workspaces data source can be used to automatically look up your configured cloud provider workspaces, based on the API token your used in the provider.  Optionally, you can supply an organization ID as well that will be used.
+The workspace data source can be used to automatically look up workspace.
 
 ## Example Usage
 
