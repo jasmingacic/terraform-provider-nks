@@ -1,7 +1,7 @@
 module github.com/NetApp/terraform-provider-nks
 
 require (
-	github.com/NetApp/nks-sdk-go v2.0.6+incompatible
+	github.com/NetApp/nks-sdk-go v2.0.8+incompatible
 	github.com/apparentlymart/go-cidr v1.0.0 // indirect
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/hashicorp/go-getter v1.0.3 // indirect
@@ -11,6 +11,7 @@ require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/hcl2 v0.0.0-20190130225218-89dbc5eb3d9e // indirect
 	github.com/hashicorp/hil v0.0.0-20190129155652-59d7c1fee952 // indirect
+	github.com/hashicorp/logutils v1.0.0 // indirect
 	github.com/hashicorp/terraform v0.11.11
 	github.com/mitchellh/cli v1.0.0 // indirect
 	github.com/mitchellh/copystructure v1.0.0 // indirect

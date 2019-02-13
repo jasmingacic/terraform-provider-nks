@@ -28,14 +28,14 @@ func TestAccResourceIstioMesh_Basic(t *testing.T) {
 
 const testResourceNKSIstioMesh_Basic = `
 data "nks_organization" "org" {
-
+	
 }
 
 data "nks_keyset" "keyset_default" {
 	org_id   = "${data.nks_organization.org.id}"
-	name     = "new Azure creds"
+	name     = "My AWS Credentials"
 	category = "provider"
-	entity   = "azure"
+	entity   = "aws"
 }
 
 data "nks_keyset" "ssh" {
@@ -45,27 +45,28 @@ data "nks_keyset" "ssh" {
 }
 
 data "nks_instance_specs" "master-specs" {
-	provider_code = "azure"
-	node_size     = "standard_f1"
+	provider_code = "aws"
+	node_size     = "t2.xlarge"
 }
 
 data "nks_instance_specs" "worker-specs" {
-	provider_code = "azure"
+	provider_code = "aws"
 	node_size     = "${data.nks_instance_specs.master-specs.node_size}"
 }
 
 resource "nks_cluster" "terraform-cluster-a" {
 	org_id                  = "${data.nks_organization.org.id}"
-	cluster_name            = "TF IstioMeshAcceptance ClusterA 1"
-	provider_code           = "azure"
+	cluster_name            = "TF IstioMeshAcceptance ClusterA 15"
+	provider_code           = "aws"
 	provider_keyset         = "${data.nks_keyset.keyset_default.id}"
-	region                  = "eastus"
+	region                  = "eu-west-1"
+	zone                    = "eu-west-1a"
 	k8s_version             = "v1.13.2"
 	startup_master_size     = "${data.nks_instance_specs.master-specs.node_size}"
 	startup_worker_count    = 2
 	startup_worker_size     = "${data.nks_instance_specs.worker-specs.node_size}"
-	provider_network_cidr   = "10.0.0.0/16"
-	provider_subnet_cidr    = "10.0.0.0/24"
+	provider_network_cidr   = "172.23.0.0/16"
+	provider_subnet_cidr    = "172.23.1.0/24"
 	rbac_enabled            = true
 	dashboard_enabled       = true
 	etcd_type               = "classic"
@@ -77,16 +78,17 @@ resource "nks_cluster" "terraform-cluster-a" {
 
 resource "nks_cluster" "terraform-cluster-b" {
 	org_id                  = "${data.nks_organization.org.id}"
-	cluster_name            = "TF IstioMeshAcceptance ClusterA 2"
-	provider_code           = "azure"
+	cluster_name            = "TF IstioMeshAcceptance ClusterB 15"
+	provider_code           = "aws"
 	provider_keyset         = "${data.nks_keyset.keyset_default.id}"
-	region                  = "eastus"
+	region                  = "eu-west-1"
+	zone                    = "eu-west-1a"
 	k8s_version             = "v1.13.2"
 	startup_master_size     = "${data.nks_instance_specs.master-specs.node_size}"
 	startup_worker_count    = 2
 	startup_worker_size     = "${data.nks_instance_specs.worker-specs.node_size}"
-	provider_network_cidr   = "10.0.0.0/16"
-	provider_subnet_cidr    = "10.0.0.0/24"
+	provider_network_cidr   = "172.23.0.0/16"
+	provider_subnet_cidr    = "172.23.1.0/24"
 	rbac_enabled            = true
 	dashboard_enabled       = true
 	etcd_type               = "classic"
@@ -115,12 +117,14 @@ resource "nks_istio_mesh" "istio-mesh-tf" {
 	workspace   = "105"
 	members     = [
 		{
-			cluster	= "${nks_cluster.terraform-cluster-a.id}"
-			role	= "host"
+			cluster	          = "${nks_cluster.terraform-cluster-a.id}"
+			role	          = "host"
+			istio_solution_id = "${nks_solution.istio-a.id}"
 		},
 		{
-			cluster	= "${nks_cluster.terraform-cluster-b.id}"
-			role	= "guest"			
+			cluster	          = "${nks_cluster.terraform-cluster-b.id}"
+			role	          = "guest"
+			istio_solution_id = "${nks_solution.istio-b.id}"
 		}
 	]
 }
