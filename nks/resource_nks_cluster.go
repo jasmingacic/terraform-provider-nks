@@ -250,7 +250,7 @@ func resourceNKSClusterCreate(d *schema.ResourceData, meta interface{}) error {
 		NetworkComponents: []nks.NetworkComponent{},
 	}
 
-	if providerCode == "aws" || providerCode == "azure" || providerCode == "gce" {
+	if providerCode == "aws" || providerCode == "azure" || providerCode == "gce" || providerCode == "gke" {
 		newCluster.MasterCount = 1
 		newCluster.MasterSize = d.Get("startup_master_size").(string)
 	}
