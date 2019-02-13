@@ -22,7 +22,7 @@ data "nks_workspace" "default" {
 
 ## Argument Reference
 
- * `name` - (Optional) Search by name or part of the name of the workspace in the organization. Case insensitive.
+ * `name` - (Optional) Search by name or part of the name of the workspace in the organization. Case insensitive. If not used the data source will return the default workspace.
  * `org_id` - (Optional) Organization ID to use (otherwise the default organization ID is located and used)
 
 ## Attributes Reference
