@@ -34,7 +34,7 @@ resource "nks_istio_mesh" "my_istio_mesh" {
 ## Argument reference
 
 * `name` - (Required)[string] Keyset name, can be anything you choose
-* `mesh_type` - (Required)[string] Mesh type, represents type of mesh and the following types are available `mesh_type` and `cross_cluster`
+* `mesh_type` - (Required)[string] Mesh type, represents type of mesh and the following type is available `cross_cluster`
 * `workspace` - (Required)[int] Workspace ID, usually populated by a refernece to a workspace resource value
 * `org_id` - (Required)[int] Organization ID, usually populated by a reference to a keyset datasource value
 * `members` - (Required)[list] Members, a list of `member`

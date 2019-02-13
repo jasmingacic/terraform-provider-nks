@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 )
 
-func TestAccDataSourceKeyset_Basic(t *testing.T) {
+func TestAccResourceKeyset_Basic(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
@@ -15,13 +15,13 @@ func TestAccDataSourceKeyset_Basic(t *testing.T) {
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			resource.TestStep{
-				Config: testAccDataSourceNKSKeyset_Basic,
+				Config: testAccResourceNKSKeyset_Basic,
 			},
 		},
 	})
 }
 
-const testAccDataSourceNKSKeyset_Basic = `
+const testAccResourceNKSKeyset_Basic = `
 data "nks_organization" "default" {
     name = "My Organization"
 }

@@ -57,6 +57,10 @@ func resourceNKSIstioMesh() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
+						"istio_solution_id": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
 					},
 				},
 			},
@@ -78,17 +82,34 @@ func resourceNKSIstioMeshCreate(d *schema.ResourceData, meta interface{}) error 
 
 	membersRaw := d.Get("members").([]interface{})
 	im.Members = make([]nks.MemberRequest, len(membersRaw))
+	solutionIds := make([]int, len(membersRaw))
 	for i, v := range membersRaw {
 		value := v.(map[string]interface{})
+		solutionIds[i] = value["istio_solution_id"].(int)
 		im.Members[i] = nks.MemberRequest{
 			Cluster: value["cluster"].(int),
 			Role:    value["role"].(string),
 		}
 	}
 
+	timeout := int(d.Timeout("Create").Seconds())
+	if v, ok := d.GetOk("timeout"); ok {
+		timeout = v.(int)
+	}
+
+	for i, solutionID := range solutionIds {
+		if err := config.Client.WaitSolutionInstalled(orgID, im.Members[i].Cluster, solutionID, timeout); err != nil {
+			return fmt.Errorf("Solution %d create failed while waiting for 'installed' state: %s", solutionID, err)
+		}
+	}
+
 	istioMesh, err := config.Client.CreateIstioMesh(orgID, workspace, im)
 	if err != nil {
 		return err
+	}
+
+	if err := config.Client.WaitIstioMeshCreated(orgID, workspace, istioMesh.ID, timeout); err != nil {
+		return fmt.Errorf("Istio mesh %s create failed while waiting: %s", d.Get("name").(string), err)
 	}
 
 	d.SetId(strconv.Itoa(istioMesh.ID))
