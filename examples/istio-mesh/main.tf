@@ -90,20 +90,27 @@ resource "nks_solution" "istio-b" {
 	solution   = "istio"
 }
 
+# Workspace
+data "nks_workspace" "my-workspace" {
+	org_id = "${data.nks_organization.org.id}"
+}
+
 # Istio mesh
 resource "nks_istio_mesh" "terraform-istio-mesh" {
 	name        = "${var.istio_mesh_name}"
 	mesh_type   = "${var.istio_mesh_type}"
 	org_id      = "${data.nks_organization.default.id}"
-	workspace	  = "${var.workspace_id}"
+	workspace	  = "${data.nks_workspace.my-workspace.id}"
 	members		  = [
 		{
 			cluster	= "${nks_cluster.terraform-cluster-a.id}"
 			role	  = "host"
+      istio_solution_id = "${nks_solution.istio-a.id}"
 		},
 		{
 			cluster	= "${nks_cluster.terraform-cluster-b.id}"
-			role	  = "guest"			
+			role	  = "guest"
+      istio_solution_id = "${nks_solution.istio-b.id}"
 		}
 	]
 }

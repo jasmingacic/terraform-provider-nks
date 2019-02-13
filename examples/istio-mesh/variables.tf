@@ -37,12 +37,6 @@ variable "istio_mesh_type" {
   default     = ""
 }
 
-# Workspace
-variable "workspace_id" {
-  description = "NKS workspace id"
-  default     = ""
-}
-
 # Cloud provider configuration variables
 variable "provider_code" {
   description = "Cloud provider type code"

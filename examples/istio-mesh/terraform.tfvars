@@ -1,16 +1,13 @@
 # Organization
-organization_name = "Wandering Band"
+organization_name = "My Organization"
 
 # Cluster
 a_cluster_name = "TF istio meshes Cluster A"
 b_cluster_name = "TF istio meshes Cluster B"
 
 # Keyset
-provider_keyset_name = "new Azure creds"
-ssh_keyset_name = "Default SPC SSH Keypair"
-
-# Workspace
-workspace_id = 105
+provider_keyset_name = "My Provider Credentials"
+ssh_keyset_name = "My SSH Keyset"
 
 # Provider
 provider_code = "azure"
