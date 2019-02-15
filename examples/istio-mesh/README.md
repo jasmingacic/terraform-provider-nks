@@ -1,6 +1,6 @@
 # Istio mesh example
 
-This example will show you how to create an istio mesh containing two clusters on Azure (with istio solution installed) with NetApp Kubernetes Service.
+This example will show you how to create an Istio mesh containing two clusters on Azure (with Istio solution installed) with NetApp Kubernetes Service.
 
 This example does the following:
 
@@ -8,8 +8,8 @@ This example does the following:
 - Finds an Azure keyset
 - Finds an SSH keyset
 - Creates two clusters
-- Installs istio solution on both of them
-- Creates an istio mesh with one of the clusters having a host role, and the other a guest role.
+- Installs Istio solution on both of them
+- Creates an Istio mesh with one of the clusters having a host role and the other a guest role.
 
 [Keyset examples](/examples/keysets#adding-a-cloud-provider-keyset-for-azure) shows how to add a keyset to NKS.
 

@@ -39,8 +39,8 @@ resource "nks_solution" "aws_keyset" {
 * `category` - (Required)[string] Category, category valid values are provider, user_ssh and solution
 * `entity` - (Optional)[string] Entity, usually populated by a reference to a keyset datasource value
 * `keys` - (Required)[list] Keys, a list of `key` related to a keyset
-* `workspaces` - (Optional)[list] Workspaces, A list of workspace ID
+* `workspaces` - (Optional)[list] Workspaces, A list of workspace IDs
 
 `key` supports the following:
-* `key_type` - (Optional)[string] Keytype, represents type of key. Examples of key type commonly used are `pub`, `prv`, `tenant`, `subscription`, `license`, `pull_secret`, `token`, `username`, `password`, `scope`, `other` etc.
+* `key_type` - (Optional)[string] Key type, represents type of key. Examples of key type commonly used are `pub`, `prv`, `tenant`, `subscription`, `license`, `pull_secret`, `token`, `username`, `password`, `scope`, `other` etc.
 * `key` - (Optional)[string] Key, represents a value for specific key type

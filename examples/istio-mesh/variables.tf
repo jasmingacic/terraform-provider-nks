@@ -28,12 +28,12 @@ variable "provider_keyset_name" {
 
 # Istio mesh
 variable "istio_mesh_name" {
-  description = "NKS istio mesh name"
+  description = "NKS Istio mesh name"
   default     = ""
 }
 
 variable "istio_mesh_type" {
-  description = "NKS istio mesh type"
+  description = "NKS Istio mesh type"
   default     = ""
 }
 

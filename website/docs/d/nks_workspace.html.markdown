@@ -28,4 +28,3 @@ data "nks_workspace" "default" {
 ## Attributes Reference
 
  * `id` - ID of the workspace
- 

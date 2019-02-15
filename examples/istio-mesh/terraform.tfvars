@@ -2,8 +2,8 @@
 organization_name = "My Organization"
 
 # Cluster
-a_cluster_name = "TF istio meshes Cluster A"
-b_cluster_name = "TF istio meshes Cluster B"
+a_cluster_name = "TF Istio meshes Cluster A"
+b_cluster_name = "TF Istio meshes Cluster B"
 
 # Keyset
 provider_keyset_name = "My Provider Credentials"
