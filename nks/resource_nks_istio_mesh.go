@@ -59,7 +59,7 @@ func resourceNKSIstioMesh() *schema.Resource {
 						},
 						"istio_solution_id": {
 							Type:     schema.TypeInt,
-							Required: true,
+							Optional: true,
 						},
 					},
 				},
