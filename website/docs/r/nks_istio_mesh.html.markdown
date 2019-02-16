@@ -22,10 +22,12 @@ resource "nks_istio_mesh" "my_istio_mesh" {
         {
             cluster            = "${data.nks_cluster.cluster1.id}"
             role               = "host"
+            istio_solution_id  = "${nks_solution.istio-a.id}"
         },
         {
             cluster            = "${data.nks_cluster.cluster2.id}"
             role               = "guest"
+            istio_solution_id  = "${nks_solution.istio-b.id}"
         },
   ]
 }
@@ -42,3 +44,4 @@ resource "nks_istio_mesh" "my_istio_mesh" {
 `member` supports the following:
 * `role` - (Required)[string] Role, represents type of role and the following types are available `host` and `guest`.
 * `cluster` - (Required)[int] Cluster ID, usually populated by a reference to a cluster resource value
+* `istio_solution_id` - (Optional)[int] Istio solution ID, usually populated by a reference to istio solution resource value previously installed on the same istio mesh member cluster. Terraform parameter `depends_on` can be used as an alternative.
