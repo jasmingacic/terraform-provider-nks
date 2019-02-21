@@ -1,6 +1,6 @@
 provider "nks" {
   # Set environment variable NKS_API_TOKEN with your API token from NKS
-  # Set environment variable NKS_API_URL with API endpoint,   
+  # Set environment variable NKS_API_URL with API endpoint,
   # defaults to NKS production enviroment.
 }
 
@@ -13,7 +13,8 @@ data "nks_organization" "default" {
 data "nks_keyset" "keyset_default" {
   # You can specify a custom orgID here or the system will find and use your
   # default organization ID.
-  org_id   = "${data.nks_organization.default.id}"
+  org_id = "${data.nks_organization.default.id}"
+
   name     = "${var.provider_keyset_name}"
   category = "provider"
   entity   = "${var.provider_code}"
@@ -22,7 +23,8 @@ data "nks_keyset" "keyset_default" {
 data "nks_keyset" "keyset_ssh" {
   # You can specify a custom orgID here or the system will find and use your
   # default organization ID.
-  org_id   = "${data.nks_organization.default.id}"
+  org_id = "${data.nks_organization.default.id}"
+
   category = "user_ssh"
   name     = "${var.ssh_keyset_name}"
 }
@@ -79,38 +81,39 @@ resource "nks_cluster" "terraform-cluster-b" {
 
 # Solutions
 resource "nks_solution" "istio-a" {
-	org_id     = "${data.nks_organization.default.id}"
-	cluster_id = "${nks_cluster.terraform-cluster-a.id}"
-	solution   = "istio"
+  org_id     = "${data.nks_organization.default.id}"
+  cluster_id = "${nks_cluster.terraform-cluster-a.id}"
+  solution   = "istio"
 }
 
 resource "nks_solution" "istio-b" {
-	org_id     = "${data.nks_organization.default.id}"
-	cluster_id = "${nks_cluster.terraform-cluster-b.id}"
-	solution   = "istio"
+  org_id     = "${data.nks_organization.default.id}"
+  cluster_id = "${nks_cluster.terraform-cluster-b.id}"
+  solution   = "istio"
 }
 
 # Workspace
 data "nks_workspace" "my-workspace" {
-	org_id = "${data.nks_organization.org.id}"
+  org_id = "${data.nks_organization.default.id}"
 }
 
 # Istio mesh
 resource "nks_istio_mesh" "terraform-istio-mesh" {
-	name        = "${var.istio_mesh_name}"
-	mesh_type   = "${var.istio_mesh_type}"
-	org_id      = "${data.nks_organization.default.id}"
-	workspace	  = "${data.nks_workspace.my-workspace.id}"
-	members		  = [
-		{
-			cluster	= "${nks_cluster.terraform-cluster-a.id}"
-			role	  = "host"
+  name      = "${var.istio_mesh_name}"
+  mesh_type = "${var.istio_mesh_type}"
+  org_id    = "${data.nks_organization.default.id}"
+  workspace = "${data.nks_workspace.my-workspace.id}"
+
+  members = [
+    {
+      cluster           = "${nks_cluster.terraform-cluster-a.id}"
+      role              = "host"
       istio_solution_id = "${nks_solution.istio-a.id}"
-		},
-		{
-			cluster	= "${nks_cluster.terraform-cluster-b.id}"
-			role	  = "guest"
+    },
+    {
+      cluster           = "${nks_cluster.terraform-cluster-b.id}"
+      role              = "guest"
       istio_solution_id = "${nks_solution.istio-b.id}"
-		}
-	]
+    },
+  ]
 }
