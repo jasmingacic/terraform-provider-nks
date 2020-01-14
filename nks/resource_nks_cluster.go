@@ -38,6 +38,14 @@ func resourceNKSCluster() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"k8s_pod_cidr": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"k8s_service_cidr": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
 			"startup_master_size": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -234,20 +242,22 @@ func resourceNKSClusterCreate(d *schema.ResourceData, meta interface{}) error {
 
 	// Set up cluster structure based on input from user
 	newCluster := nks.Cluster{
-		Name:              d.Get("cluster_name").(string),
-		Provider:          d.Get("provider_code").(string),
-		ProviderKey:       d.Get("provider_keyset").(int),
-		WorkerCount:       d.Get("startup_worker_count").(int),
-		WorkerSize:        d.Get("startup_worker_size").(string),
-		KubernetesVersion: d.Get("k8s_version").(string),
-		RbacEnabled:       d.Get("rbac_enabled").(bool),
-		DashboardEnabled:  d.Get("dashboard_enabled").(bool),
-		EtcdType:          d.Get("etcd_type").(string),
-		Platform:          d.Get("platform").(string),
-		Channel:           d.Get("channel").(string),
-		SSHKeySet:         sshKeyID,
-		Solutions:         []nks.Solution{}, // helm_tiller will get automatically installed
-		NetworkComponents: []nks.NetworkComponent{},
+		Name:                  d.Get("cluster_name").(string),
+		Provider:              d.Get("provider_code").(string),
+		ProviderKey:           d.Get("provider_keyset").(int),
+		WorkerCount:           d.Get("startup_worker_count").(int),
+		WorkerSize:            d.Get("startup_worker_size").(string),
+		KubernetesVersion:     d.Get("k8s_version").(string),
+		KubernetesPodCidr:     d.Get("k8s_pod_cidr").(string),
+		KubernetesServiceCidr: d.Get("k8s_service_cidr").(string),
+		RbacEnabled:           d.Get("rbac_enabled").(bool),
+		DashboardEnabled:      d.Get("dashboard_enabled").(bool),
+		EtcdType:              d.Get("etcd_type").(string),
+		Platform:              d.Get("platform").(string),
+		Channel:               d.Get("channel").(string),
+		SSHKeySet:             sshKeyID,
+		Solutions:             []nks.Solution{}, // helm_tiller will get automatically installed
+		NetworkComponents:     []nks.NetworkComponent{},
 	}
 
 	if providerCode == "aws" || providerCode == "azure" || providerCode == "gce" || providerCode == "gke" {
@@ -474,6 +484,8 @@ func resourceNKSClusterRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("owner", cluster.Owner)
 	d.Set("notified", cluster.Notified)
 	d.Set("k8s_version", cluster.KubernetesVersion)
+	d.Set("k8s_pod_cidr", cluster.KubernetesPodCidr)
+	d.Set("k8s_service_cidr", cluster.KubernetesServiceCidr)
 	d.Set("dashboard_enabled", cluster.DashboardEnabled)
 	d.Set("dashboard_installed", cluster.DashboardInstalled)
 	d.Set("rbac_enabled", cluster.RbacEnabled)
