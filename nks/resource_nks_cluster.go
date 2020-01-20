@@ -258,119 +258,48 @@ func resourceNKSClusterCreate(d *schema.ResourceData, meta interface{}) error {
 		SSHKeySet:             sshKeyID,
 		Solutions:             []nks.Solution{}, // helm_tiller will get automatically installed
 		NetworkComponents:     []nks.NetworkComponent{},
-	}
-
-	if providerCode == "aws" || providerCode == "azure" || providerCode == "gce" || providerCode == "gke" {
-		newCluster.MasterCount = 1
-		newCluster.MasterSize = d.Get("startup_master_size").(string)
-	}
-
-	if providerCode == "eks" {
-		if _, ok := d.GetOk("startup_worker_min_count"); !ok {
-			return fmt.Errorf("NKS needs min node number")
-		}
-		newCluster.MinNodeCount = d.Get("startup_worker_min_count").(int)
-
-		if _, ok := d.GetOk("startup_worker_max_count"); !ok {
-			return fmt.Errorf("NKS needs max node number")
-		}
-		newCluster.MaxNodeCount = d.Get("startup_worker_max_count").(int)
-
-		// Allow user to submit values for provider_network_id_requested, and put real value in computed provider_network_id
-		if _, ok := d.GetOk("provider_network_id_requested"); !ok {
-			newCluster.ProviderNetworkID = "__new__"
-		} else {
-			newCluster.ProviderNetworkID = d.Get("provider_network_id_requested").(string)
-		}
-		if _, ok := d.GetOk("provider_network_cidr"); !ok {
-			newCluster.ProviderNetworkCdr = "10.0.0.0/16"
-		} else {
-			newCluster.ProviderNetworkCdr = d.Get("provider_network_cidr").(string)
-		}
+		MasterCount:           1,
+		MasterSize:            d.Get("startup_master_size").(string),
 	}
 
 	// Grab provider-specific fields
-	if d.Get("provider_code").(string) == "aws" {
-		if _, ok := d.GetOk("region"); !ok {
-			return fmt.Errorf("NKS needs region for AWS clusters.")
-		}
+	if providerCode == "aws" {
 		if _, ok := d.GetOk("zone"); !ok {
 			return fmt.Errorf("NKS needs zone for AWS clusters.")
 		}
-		// Allow user to submit values for provider_network_id_requested, and put real value in computed provider_network_id
-		if _, ok := d.GetOk("provider_network_id_requested"); !ok {
-			newCluster.ProviderNetworkID = "__new__"
-		} else {
-			newCluster.ProviderNetworkID = d.Get("provider_network_id_requested").(string)
-		}
-		if _, ok := d.GetOk("provider_network_cidr"); !ok {
-			newCluster.ProviderNetworkCdr = "10.0.0.0/16"
-		} else {
-			newCluster.ProviderNetworkCdr = d.Get("provider_network_cidr").(string)
-		}
-		// Allow user to submit values for provider_subnet_id_requested, and put real value in computed provider_subnet_id
-		if _, ok := d.GetOk("provider_subnet_id_requested"); !ok {
-			newCluster.ProviderSubnetID = "__new__"
-		} else {
-			newCluster.ProviderSubnetID = d.Get("provider_subnet_id_requested").(string)
-		}
-		if _, ok := d.GetOk("provider_subnet_cidr"); !ok {
-			newCluster.ProviderSubnetCidr = "10.0.0.0/24"
-		} else {
-			newCluster.ProviderSubnetCidr = d.Get("provider_subnet_cidr").(string)
-		}
-		newCluster.Region = d.Get("region").(string)
 		newCluster.Zone = d.Get("zone").(string)
-	} else if d.Get("provider_code").(string) == "do" || d.Get("provider_code").(string) == "gce" ||
-		d.Get("provider_code").(string) == "gke" || d.Get("provider_code").(string) == "oneandone" {
-		if _, ok := d.GetOk("region"); !ok {
-			return fmt.Errorf("NKS needs region for DigitalOcean/GCE/GKE clusters.")
-		}
-		newCluster.Region = d.Get("region").(string)
-	} else if d.Get("provider_code").(string) == "azure" {
+	}
+	if providerCode == "azure" {
 		// Allow user to submit values for provider_resource_group_requested, and put real value in computed provider_resource_group
 		if _, ok := d.GetOk("provider_resource_group_requested"); !ok {
 			newCluster.ProviderResourceGp = "__new__"
 		} else {
 			newCluster.ProviderResourceGp = d.Get("provider_resource_group_requested").(string)
 		}
-		if _, ok := d.GetOk("region"); !ok {
-			return fmt.Errorf("NKS needs region for Azure clusters.")
-		}
-		// Allow user to submit values for provider_network_id_requested, and put real value in computed provider_network_id
-		if _, ok := d.GetOk("provider_network_id_requested"); !ok {
-			newCluster.ProviderNetworkID = "__new__"
-		} else {
-			newCluster.ProviderNetworkID = d.Get("provider_network_id_requested").(string)
-		}
-		if _, ok := d.GetOk("provider_network_cidr"); !ok {
-			newCluster.ProviderNetworkCdr = "10.0.0.0/16"
-		} else {
-			newCluster.ProviderNetworkCdr = d.Get("provider_network_cidr").(string)
-		}
-		// Allow user to submit values for provider_subnet_id_requested, and put real value in computed provider_subnet_id
-		if _, ok := d.GetOk("provider_subnet_id_requested"); !ok {
-			newCluster.ProviderSubnetID = "__new__"
-		} else {
-			newCluster.ProviderSubnetID = d.Get("provider_subnet_id_requested").(string)
-		}
-		if _, ok := d.GetOk("provider_subnet_cidr"); !ok {
-			newCluster.ProviderSubnetCidr = "10.0.0.0/24"
-		} else {
-			newCluster.ProviderSubnetCidr = d.Get("provider_subnet_cidr").(string)
-		}
-		newCluster.Region = d.Get("region").(string)
-	} else if d.Get("provider_code").(string) == "packet" {
-		if _, ok := d.GetOk("region"); !ok {
-			return fmt.Errorf("NKS needs region for Packet clusters.")
-		}
-		if _, ok := d.GetOk("project_id"); !ok {
-			return fmt.Errorf("NKS needs project_id for Packet clusters.")
-		}
-		newCluster.Region = d.Get("region").(string)
-		newCluster.ProjectID = d.Get("project_id").(string)
 	}
 
+	// Allow user to submit values for provider_network_id_requested, and put real value in computed provider_network_id
+	if _, ok := d.GetOk("provider_network_id_requested"); !ok {
+		newCluster.ProviderNetworkID = "__new__"
+	} else {
+		newCluster.ProviderNetworkID = d.Get("provider_network_id_requested").(string)
+	}
+	if _, ok := d.GetOk("provider_network_cidr"); !ok {
+		newCluster.ProviderNetworkCdr = "10.0.0.0/16"
+	} else {
+		newCluster.ProviderNetworkCdr = d.Get("provider_network_cidr").(string)
+	}
+	// Allow user to submit values for provider_subnet_id_requested, and put real value in computed provider_subnet_id
+	if _, ok := d.GetOk("provider_subnet_id_requested"); !ok {
+		newCluster.ProviderSubnetID = "__new__"
+	} else {
+		newCluster.ProviderSubnetID = d.Get("provider_subnet_id_requested").(string)
+	}
+	if _, ok := d.GetOk("provider_subnet_cidr"); !ok {
+		newCluster.ProviderSubnetCidr = "10.0.0.0/24"
+	} else {
+		newCluster.ProviderSubnetCidr = d.Get("provider_subnet_cidr").(string)
+	}
 	if _, ok := d.GetOk("region"); !ok {
 		return fmt.Errorf("NKS needs region for clusters.")
 	}
